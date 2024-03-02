@@ -5,6 +5,11 @@ const fs = require("fs");
 
 const GAS_FEE = 0.075;
 
+const stdDev = (xs: number[], mean: number): number =>
+  Math.sqrt(
+    xs.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / xs.length
+  );
+
 const displayGas = (gas: bigint): string =>
   `${((Number(gas) * GAS_FEE) / 1_000_000).toFixed(4)} JUNO (${Number(
     gas
@@ -63,6 +68,16 @@ const displayGas = (gas: bigint): string =>
     highest,
     totalCount: totalTxs,
     totalGasWanted: displayGas(allGasWanted),
-    totalGasUsed: displayGas(allGasUsed.reduce((a, b) => a + b)),
+    // totalGasUsed: displayGas(allGasUsed.reduce((a, b) => a + b)),
+    // gasWantedStdDeviation: displayGas(
+    //   BigInt(
+    //     parseInt(
+    //       stdDev(
+    //         allGasPaid.map(Number),
+    //         Number(allGasWanted / BigInt(totalTxs))
+    //       ).toString()
+    //     )
+    //   )
+    // ),
   });
 })();
