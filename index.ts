@@ -16,9 +16,10 @@ const displayGas = (gas: bigint): string =>
     { sender: string; amount: bigint; txHash: string[]; burnCount: number }
   > = {};
 
-  let sumGasUsed = BigInt(0);
+  let allGasWanted = BigInt(0);
   let totalTxs = 0;
   let allGasPaid: bigint[] = [];
+  let allGasUsed: bigint[] = [];
 
   for (let i = 1; i < 229; i++) {
     const compoundings: CompoundResp = JSON.parse(
@@ -29,17 +30,21 @@ const displayGas = (gas: bigint): string =>
     );
 
     const allGasFeesUsed =
-      compoundings?.txs?.map(({ gas_used }) => BigInt(gas_used)) || [];
+      compoundings?.txs?.map(({ gas_wanted }) => BigInt(gas_wanted)) || [];
+
+    compoundings.txs.forEach(({ gas_used }) =>
+      allGasUsed.push(BigInt(gas_used))
+    );
 
     allGasPaid = allGasPaid.concat(allGasFeesUsed);
 
     allGasFeesUsed.forEach((used) => {
       totalTxs++;
-      sumGasUsed += used;
+      allGasWanted += used;
     });
   }
 
-  const mean = displayGas(sumGasUsed / BigInt(totalTxs));
+  const mean = displayGas(allGasWanted / BigInt(totalTxs));
 
   const sortedGassesPaid = allGasPaid.sort(
     (a, b) => Number(a.toString()) - Number(b.toString())
@@ -57,6 +62,7 @@ const displayGas = (gas: bigint): string =>
     lowest,
     highest,
     totalCount: totalTxs,
-    totalGasUsed: displayGas(sumGasUsed),
+    totalGasWanted: displayGas(allGasWanted),
+    totalGasUsed: displayGas(allGasUsed.reduce((a, b) => a + b)),
   });
 })();

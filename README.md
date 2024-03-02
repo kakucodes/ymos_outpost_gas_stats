@@ -10,11 +10,12 @@ at time of writing the results look as such
 
 ```json
 {
-  "mean": "0.0752 JUNO (1,002,915 gas)",
-  "median": "0.0642 JUNO (856,634 gas)",
-  "lowest": "0.0091 JUNO (120,677 gas)",
-  "highest": "0.3773 JUNO (5,031,033 gas)",
+  "mean": "0.0764 JUNO (1,018,828 gas)",
+  "median": "0.0653 JUNO (870,018 gas)",
+  "lowest": "0.0105 JUNO (140,302 gas)",
+  "highest": "0.3845 JUNO (5,126,844 gas)",
   "totalCount": 11400,
+  "totalGasWanted": "871.0986 JUNO (11,614,647,418 gas)",
   "totalGasUsed": "857.4926 JUNO (11,433,234,409 gas)"
 }
 ```
